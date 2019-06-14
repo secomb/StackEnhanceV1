@@ -1,0 +1,35 @@
+Parameters for StackEnhance - initial reference version - June 2019
+331	d, number of images in stack
+Next line: File name prefix, must be followed by <3-digit frame number>.tif 
+E:\BrainBoas2015\stackImages\im
+3   useGPU (0 no GPU, 1, 2, 3, 4)
+0   --- run_percentilefilter2d, 2D percentile filtering ---
+50. lowpercent2d, percentile for min. intensity output (50.)
+99.	highpercent2d, percentile for max. intensity output (99.)
+1.  minfactor2d, minimum contrast enhancement (1.)
+8.  maxfactor2d, maximum contrast enhancement (8.)
+51 51	iwindow2d, jwindow2d, size of sampling window (51 x 51)
+0   --- run_percentilefilter3d, 3D percentile filtering --- 
+50. lowpercent3d, percentile for min. intensity output (50.)
+99.	highpercent3d, percentile for max. intensity output (99.)
+1.  minfactor3d, minimum contrast enhancement (1.)
+8.  maxfactor3d, maximum contrast enhancement (8.)
+21 21 21 iwindow3d, jwindow3d, kwindow3d, size of sampling window (21 x 21 x 11)
+1   --- run_percentilefilter3dsampling, 3D percentile filtering with predefined sample scheme ---
+50. lowpercent3dsamp, percentile for min. intensity output (50.)
+99.	highpercent3dsamp, percentile for max. intensity output (99.)
+1.  minfactor3dsamp, minimum contrast enhancement (1.)
+8.  maxfactor3dsamp, maximum contrast enhancement (8.)
+50	discradius in voxels, sampling region is a disk plus a sphere (50)
+10  sphereradius in voxels (10)
+0   --- run_vesselness2d, 2D "vesselness" filter ---
+3.	sigmax2d, length of vesselness kernel in voxels (3.)
+0.5	sigmay2d, width of vesselness kernel (0.5)
+13	dpsf2d, size of integration region in voxels, must be large enough (13)
+1	--- run_vesselness3d, 3D "vesselness" filter ---
+3.	sigmax3d, length of vesselness kernel in voxels (3.)
+0.5	sigmay3d, width of vesselness kernel (0.5)
+13	dpsf3d, size of integration region in voxels, must be large enough (13)
+1	--- run_fillin3d, 3D "fillin" filter ---
+25	fillinradius in voxels (25)
+1	--- run_vesselness3d_again, optional second run of 3D "vesselness" filter ---
