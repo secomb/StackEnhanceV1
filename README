@@ -1,1 +1,48 @@
-Preliminary version of StackEnhanceV1. More coming ...
+StackEnhanceV1 - Program to enhance microvascular network image stacks
+
+This program includes three types of filters applied to 3D image stacks:
+- Percentile filtering
+- Vesselness filtering
+- Fill-in filtering
+The filters to be applied, and the parameter settings for the filters, are controlled by the file StackEnhanceParams.dat. This set of filters was designed to enhance image stacks prior to importation into software such as Amira, which can perform segmentation and skeletonization on the imported stacks. 
+
+Perecentile filtering is designed to compensate for variations in background intensity and contrast within the image domain. For each voxel in the image, a histogram is constructed of the intensities in a specified region around that voxel. The following parameters are defined:
+lowpercent: Up to this percentile, all voxels should be outside vessels. Any input voxel at or below this level has minimum intensity on output. 
+highpercent: Above this percentile, all voxels should be inside vessels. Any input voxel above this level has maximum intensity on output. 
+Voxels between these levels are scaled linearly on output.
+minfactor: minimum contrast enhancement, normally 1
+maxfactor: maximum contrast enhancement
+
+Three versions of this filter are provided:
+- percentilefilter2d - sampling region is a rectangle within the image plane containing the voxel.
+iwindow2d and jwindow2d define the size of sampling window
+- percentilefilter3d - sampling region is a box centered around the voxel
+iwindow3d, jwindow3d and kwindow3d define the size of the sampling region
+- percentilefilter3dsampling - sampling region is a disk in the plane and a smaller sphere, both surrounding the voxel.
+discradius and sphereradius define the size of these regions. The rationale for this is as follows. The variations in background and contrast tend to occur mainly in the z-xirection. Therefore, sampling in the image plane gives more reliable results. However, this leds to an artifact at the top and bottom of the image stack, where the contrast enhancement is too strong. Including a smaller 3D sampling region avoids this problem.
+
+Vesselness filtering is designed to enhance any structure that has a linear alignment, but not planar or isotropic alignment. For each voxel, the image intensities in a surrounding region are convoluted with kernels whose contours are elongated ellipses (or ellipsoids in three dimensions). This procedure is repeated for multiple orientations of the ellipse, and the largest result is selected. This has the effect of boosting and smoothing any structure that has a strong linear orientation (i.e. a vessel). The following parameters are defined:
+sigmax2d, length of vesselness kernel in voxels
+sigmay2d, width of vesselness kernel
+dpsf2d, size of integration region in voxels, must be large enough to contain most of the intensity in the kernel
+Two versions are provided:
+vesselness2d - filters in 2D in each image plane. Kernel orientations are a set of 10 equally spaced (18 degrees apart).
+vesselness3d - filters in 3D. Kernel orientations are derived from a user-supplied file, e.g. SpherePoints28.txt, containing components of unit vectors in the selected directions. These are chosen to give a relatively even overage of a sphere (a problem known as "spherical codes").
+
+Fill-in filtering is designed to fill in the interior of large vessels, when the walls are strongly labeled but with low intensity in the interior. For each voxel, the maximum intensity is found on a ray extending a distance fillinradius in each of six coordinate directions. The mean and coefficient of variation of these six intesnities is computed. If the mean is larger than the intensity of the voxel (input), then we set 
+output = input + (mean - input)*exp(-coeffv)
+If the surrounding maximum intensities are relatively uniform, then this boost is maximize. If they are highly variable, then it is less likely that the input voxel is in the interior of a vessel.
+
+The percentile filter and the vesselness filter are computationally intensive, and use of GPU versions is needed for typical image stack sizes (e.g. 512 x 512 x several hundred). Here, percentilefilter3d and percentilefilter3dsampling are provided only in GPU versions.
+
+For the format of StackEnhanceParams, see the example provided.
+The first line is any descriptaive text.
+The second line gives the number d of images in the stack.
+The image must consist of sequentially numbered gif files, e.g. image001.gif, image 002.gif, etc. A drive or path can be included in the specification on the fourth line of the data file.
+The image size (w x d) is read from the first tif image in the stack.
+
+The program creates a new folder in the current folder called "NewStack" and writes updated image stacks to that folder after each filter is applied.  
+
+TWS, December 2016 - June 2019, with contributions from Bohan Li
+
+Updated 13 June 2019

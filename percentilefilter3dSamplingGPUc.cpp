@@ -6,7 +6,6 @@ Bohan Li, 2019
 **************************************************************************/
 #include <shrUtils.h>
 #include <cutil_inline.h>
-#include <cublas.h>
 #include <time.h>
 #include "nrutil.h"
 
@@ -36,7 +35,7 @@ void percentilefilter3dSamplingGPUc(float lowpercent, float highpercent, float m
 
 	//initialize input and output
 	for(k=1; k<=d; k++) for(j=1; j<=h; j++) for(i=1; i<=w; i++)	h_image[(i-1) + (j-1)*w + (k-1)*w*h] = image[i][j][k];
-	for (isample=0;isample<nsamples;isample++) for (i=1;i<=3;i++) h_samples[isample*3+i-1] = samples[isample+1][i];
+	for(isample=0; isample<nsamples; isample++) for(i=1; i<=3; i++) h_samples[isample*3+i-1] = samples[isample+1][i];
 
 	cudaMemcpy(d_image, h_image, nvoxels*sizeof(int), cudaMemcpyHostToDevice);
 	cudaMemcpy(d_samples, h_samples, nsamples*3*sizeof(int), cudaMemcpyHostToDevice);
@@ -50,7 +49,7 @@ void percentilefilter3dSamplingGPUc(float lowpercent, float highpercent, float m
 
 	free_ivector(h_image,0,nvoxels-1);
 	free_ivector(h_samples,0,nsamples*3-1);
-		
+
 	cudaFree(d_image);
 	cudaFree(d_image1);
 	cudaFree(d_image2);

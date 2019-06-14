@@ -4,7 +4,6 @@ GPU version of 3D percentilefiltering
 **************************************************************************/
 #include <shrUtils.h>
 #include <cutil_inline.h>
-#include <cublas.h>
 #include <time.h>
 #include "nrutil.h"
 

@@ -5,7 +5,6 @@ TWS, May 2017
 **************************************************************************/
 #include <shrUtils.h>
 #include <cutil_inline.h>
-#include <cublas.h>
 #include "nrutil.h"
 
 extern "C" void vesselness3dGPU(float *d_input, float *d_output, float *d_psf3d, float *d_psf3dx, int w, int h, int d, int dpsf3d, float fac);
