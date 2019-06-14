@@ -38,8 +38,12 @@ The percentile filter and the vesselness filter are computationally intensive, a
 For the format of StackEnhanceParams, see the example provided.
 The first line is any descriptaive text.
 The second line gives the number d of images in the stack.
-The image must consist of sequentially numbered gif files, e.g. image001.gif, image 002.gif, etc. A drive or path can be included in the specification on the fourth line of the data file.
+The image must consist of sequentially numbered gif files, e.g. image001.gif, image002.gif, etc. A drive or path can be included in the specification on the fourth line of the data file.
 The image size (w x d) is read from the first tif image in the stack.
+
+A sample raw image stack is provided (Gagnon_et_al_2015.zip). This stack was used to obtain the network images shown in two papers by Gagnon et al.
+1. Gagnon L, Sakadzic S, Lesage F, Mandeville ET, Fang Q, Yaseen MA, Boas DA (2015) Multimodal reconstruction of microvascular-flow distributions using combined two-photon microscopy and Doppler optical coherence tomography. Neurophotonics 2 (1):015008.
+2. Gagnon L, Sakadzic S, Lesage F, Musacchia JJ, Lefebvre J, Fang Q, Yucel MA, Evans KC, Mandeville ET, Cohen-Adad J, Polimeni JR, Yaseen MA, Lo EH, Greve DN, Buxton RB, Dale AM, Devor A, Boas DA (2015) Quantifying the microvascular origin of BOLD-fMRI from first principles with two-photon microscopy and an oxygen-sensitive nanoprobe. J Neurosci 35 (8):3663-3675.
 
 The program creates a new folder in the current folder called "NewStack" and writes updated image stacks to that folder after each filter is applied.  
 
